@@ -1,6 +1,16 @@
 call pathogen#infect()
 call pathogen#helptags()
 
+function! ToggleVerbose()
+    if !&verbose
+        set verbosefile=~/.vim/verbose.log
+        set verbose=9
+    else
+        set verbose=0
+        set verbosefile=
+    endif
+endfunction
+
 " syntastic
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -14,8 +24,13 @@ let g:syntastic_flake8_args="--max-line-length=160"
 
 " airline
 set laststatus=2
-set t_Co=256
-" let g:airline#extensions#tabline#enabled = 1
+"set t_Co=256
+let g:airline#extensions#tabline#enabled = 1
+
+let mapleader=","
+
+autocmd vimenter * if !argc() | NERDTree | endif
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 filetype plugin indent on
 syntax on
@@ -26,6 +41,7 @@ set ruler
 set background=dark
 set encoding=utf8
 set ffs=unix,dos,mac
+set backspace=indent,eol,start
 
 set wildmenu
 set wildmode=longest:list
@@ -49,6 +65,7 @@ set incsearch
 "vnoremap <silent> # :call VisualSelection('b')<CR>
 
 colorscheme jellyx
+"colorscheme brogrammer
 
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -67,3 +84,9 @@ autocmd Filetype css setlocal ts=2 sw=2
 autocmd Filetype scss setlocal ts=2 sw=2
 autocmd Filetype js setlocal ts=2 sw=2
 autocmd Filetype c setlocal ts=2 sw=2
+
+nmap <F6> <Plug>ColorstepPrev
+nmap <F7> <Plug>ColorstepNext
+nmap <S-F7> <Plug>ColorstepReload
+
+autocmd FileType python runtime! autoload/pythoncomplete.vim
