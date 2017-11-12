@@ -24,7 +24,7 @@ let g:syntastic_flake8_args="--max-line-length=160"
 
 " airline
 set laststatus=2
-"set t_Co=256
+set t_Co=256
 let g:airline#extensions#tabline#enabled = 1
 
 let mapleader=","
